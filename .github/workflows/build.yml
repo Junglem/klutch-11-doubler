@@ -1,0 +1,27 @@
+
+name: Build KLUTCH 11 DOUBLER
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure project
+        run: cmake -B build -S . -A x64
+
+      - name: Build VST3
+        run: cmake --build build --config Release --target Klutch11Doubler_VST3
+
+      - name: Upload plugin
+        uses: actions/upload-artifact@v4
+        with:
+          name: KLUTCH-11-DOUBLER
+          path: build/Klutch11Doubler_artefacts/Release/VST3/
